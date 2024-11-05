@@ -1,6 +1,6 @@
 use std::io;
 
-fn read<T: std::str::FromStr>() -> Result<T, String> {
+fn read<T: std::str::FromStr>() -> T {
     loop {
         let mut input = String::new();
 
@@ -11,7 +11,7 @@ fn read<T: std::str::FromStr>() -> Result<T, String> {
         let input = input.trim();
 
         match input.parse::<T>() {
-            Ok(num) => return Ok(num),
+            Ok(num) => return num,
             Err(_) => {
                 println!(
                     "Please insert a valid value of type {}",
@@ -28,5 +28,30 @@ struct Product {
 }
 
 fn main() {
-    let 
+    let mut products: Vec<Product> = Vec::new();
+
+    for _ in 0..3 {
+        let quantity: i8 = read();
+
+        let product = Product {
+            quantity,
+            value: 0.0,
+        };
+
+        products.push(product);
+    }
+
+    for i in 0..3 {
+        let value: f32 = read();
+
+        products[i].value = value;
+    }
+
+    let mut client_money: f32 = read();
+
+    for (_, product) in products.iter().enumerate() {
+        client_money -= f32::from(product.quantity) * product.value
+    }
+
+    println!("{:.2}", client_money);
 }
