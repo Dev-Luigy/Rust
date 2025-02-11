@@ -11,8 +11,29 @@ use std::io::{self, BufRead};
  *  5. INTEGER_ARRAY apples
  *  6. INTEGER_ARRAY oranges
  */
+fn check_fruit_is_on_house(
+    tree_position: i32,
+    house_initial_point: i32,
+    house_end_point: i32,
+    fruit: i32,
+) -> bool {
+    let fruit_position = fruit + tree_position;
+    house_initial_point <= fruit_position && house_end_point >= fruit_position
+}
 
-fn count_apples_and_oranges(s: i32, t: i32, a: i32, b: i32, apples: &[i32], oranges: &[i32]) {}
+fn verify_fruit_quantity_per_tree(tree_position: i32, s: i32, t: i32, tree: &[i32]) -> i32 {
+    tree.iter()
+        .filter(|&&fruit| check_fruit_is_on_house(tree_position, s, t, fruit))
+        .count() as i32
+}
+
+fn count_apples_and_oranges(s: i32, t: i32, a: i32, b: i32, apples: &[i32], oranges: &[i32]) {
+    let apples_in_house: i32 = verify_fruit_quantity_per_tree(a, s, t, apples);
+    let oranges_in_house: i32 = verify_fruit_quantity_per_tree(b, s, t, oranges);
+
+    println!("{}", apples_in_house);
+    println!("{}", oranges_in_house);
+}
 
 fn main() {
     let stdin = io::stdin();
